@@ -79,6 +79,15 @@ This structure supports scalable data management for multiple communities.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.1.
 
+### Environment Setup
+
+1. Copy the `.env.example` file to `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Fill in your environment variables in the `.env` file with your MongoDB Atlas connection string, JWT secret, and email credentials.
+
 ### Auto Setup
 
 Run the `start.bat` file to automatically install the required packages and start the development servers.
@@ -93,11 +102,15 @@ npm install
 
 ### Development Server
 
-Run the following command to start the development server:
+1. Start the backend server:
+   ```bash
+   npm run backend
+   ```
 
-```bash
-ng serve
-```
+2. In a separate terminal, start the frontend:
+   ```bash
+   ng serve
+   ```
 
 Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
@@ -110,3 +123,7 @@ ng build
 ```
 
 The build artifacts will be stored in the `dist/` directory.
+
+## Deployment
+
+For detailed instructions on deploying this application to Vercel with MongoDB Atlas, please see the [DEPLOYMENT.md](DEPLOYMENT.md) guide.
