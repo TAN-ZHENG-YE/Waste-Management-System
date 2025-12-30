@@ -4,6 +4,7 @@ const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
+require('dotenv').config();
 
 
 const transporter = nodemailer.createTransport({
@@ -11,8 +12,8 @@ const transporter = nodemailer.createTransport({
   port: 587,
   secure: false,  // Use TLS
   auth: {
-    user: 'thomastanzeye899@gmail.com',
-    pass: 'xixp temb pkms kmix'
+    user: process.env.EMAIL_USER || 'thomastanzeye899@gmail.com',
+    pass: process.env.EMAIL_PASS || 'xixp temb pkms kmix'
   },
   tls: {
     rejectUnauthorized: false   
@@ -54,7 +55,8 @@ router.post('/forgot-password', async (req, res) => {
     await user.save();
 
     // Create reset URL and send email
-    const resetUrl = `http://localhost:4200/reset-password/${resetToken}`;
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:4200';
+    const resetUrl = `${frontendUrl}/reset-password/${resetToken}`;
     
     try {
       await transporter.sendMail({
