@@ -6,32 +6,44 @@ const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
+const emailUser = process.env.EMAIL_USER;
+const emailPass = process.env.EMAIL_PASS;
 
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,  // Use TLS
-  auth: {
-    user: process.env.EMAIL_USER || 'thomastanzeye899@gmail.com',
-    pass: process.env.EMAIL_PASS || 'xixp temb pkms kmix'
-  },
-  tls: {
-    rejectUnauthorized: false   
-  }
-});
+// Only create transporter if credentials are available
+let transporter = null;
+if (emailUser && emailPass) {
+  transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false,  // Use TLS
+    auth: {
+      user: emailUser,
+      pass: emailPass
+    },
+    tls: {
+      rejectUnauthorized: false   
+    }
+  });
 
-// Test email configuration
-transporter.verify(function(error, success) {
-  if (error) {
-    console.log('Email configuration error:', error);
-  } else {
-    console.log('Email server is ready to send messages');
-  }
-});
+  // Test email configuration
+  transporter.verify(function(error, success) {
+    if (error) {
+      console.log('Email configuration error:', error);
+    } else {
+      console.log('Email server is ready to send messages');
+    }
+  });
+} else {
+  console.warn('Email credentials not configured. Email features will be disabled.');
+}
 
 // Forgot password request
 router.post('/forgot-password', async (req, res) => {
   try {
+    if (!transporter) {
+      return res.status(503).json({ message: 'Email service is not configured' });
+    }
+
     const { email } = req.body;
     
     if (!email) {

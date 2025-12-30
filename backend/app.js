@@ -17,13 +17,25 @@ const upload = multer();
 app.use(express.static('public'));
 
 // Connect to MongoDB
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://max:RFO2mB6n6G9dbtdt@cluster0.tijon.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-mongoose.connect(MONGODB_URI)
+const MONGODB_URI = process.env.MONGODB_URI;
+
+if (!MONGODB_URI && process.env.NODE_ENV === 'production') {
+    console.error('FATAL ERROR: MONGODB_URI is not defined in production environment.');
+    process.exit(1);
+}
+
+// Fallback for development only
+const dbUri = MONGODB_URI || "mongodb+srv://max:RFO2mB6n6G9dbtdt@cluster0.tijon.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+
+mongoose.connect(dbUri)
     .then(() => {
         console.log('connected to database');
     })
     .catch((error) => {
         console.log('connection failed:', error.message);
+        if (process.env.NODE_ENV === 'production') {
+            process.exit(1);
+        }
     });
 
 
@@ -40,16 +52,19 @@ app.use(cors({
     if (!origin) return callback(null, true);
     
     // Check if origin is in allowed list or matches wildcard
-    if (allowedOrigins.some(allowed => {
+    const isAllowed = allowedOrigins.some(allowed => {
       if (allowed.includes('*')) {
         const regex = new RegExp('^' + allowed.replace(/\*/g, '.*') + '$');
         return regex.test(origin);
       }
       return allowed === origin;
-    })) {
+    });
+    
+    if (isAllowed) {
       callback(null, true);
     } else {
-      callback(null, true); // Allow all origins for now to prevent CORS issues in production
+      console.warn(`CORS: Blocked request from origin: ${origin}`);
+      callback(new Error('Not allowed by CORS'));
     }
   },
   credentials: true
@@ -58,7 +73,15 @@ app.use(express.json({ limit: '10mb' }));
 app.use('/api/auth', authRoutes);
 
 // authentication middleware
-const secretKey = process.env.JWT_SECRET || 's3cUr3K3y!@#12345$%^&*()_+QwErTy';
+const secretKey = process.env.JWT_SECRET;
+
+if (!secretKey && process.env.NODE_ENV === 'production') {
+    console.error('FATAL ERROR: JWT_SECRET is not defined in production environment.');
+    process.exit(1);
+}
+
+// Use fallback only in development
+const jwtSecret = secretKey || 's3cUr3K3y!@#12345$%^&*()_+QwErTy';
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
@@ -68,7 +91,7 @@ function authenticateToken(req, res, next) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
-  jwt.verify(token, secretKey, (err, user) => {
+  jwt.verify(token, jwtSecret, (err, user) => {
     if (err) {
       return res.status(403).json({ message: "Forbidden" });
     }
@@ -125,11 +148,24 @@ app.post("/api/user/register", async (req, res) => {
     });
     
     // Send verification email
+    const emailUser = process.env.EMAIL_USER;
+    const emailPass = process.env.EMAIL_PASS;
+    
+    if (!emailUser || !emailPass) {
+      console.warn('Email credentials not configured. Skipping email verification.');
+      if (process.env.NODE_ENV === 'production') {
+        return res.status(500).json({ err: "Email service not configured. Please contact administrator." });
+      }
+      // In development, allow user creation without email
+      await newUser.save();
+      return res.status(200).json({ msg: "Registration successful (email verification skipped in development)" });
+    }
+    
     const transporter = nodemailer.createTransport({
       service: 'Gmail',
       auth: {
-        user: process.env.EMAIL_USER || 'thomastanzeye899@gmail.com',
-        pass: process.env.EMAIL_PASS || 'xixp temb pkms kmix'
+        user: emailUser,
+        pass: emailPass
       },
       tls: {
         rejectUnauthorized: false // Allow self-signed certificates
@@ -138,7 +174,7 @@ app.post("/api/user/register", async (req, res) => {
 
     const backendUrl = process.env.BACKEND_URL || 'http://localhost:3000';
     const mailOptions = {
-      from: process.env.EMAIL_USER || 'thomastanzeye899@gmail.com',
+      from: emailUser,
       to: email,
       subject: 'Verification Needed from WasteWise Website',
       html: `
@@ -232,7 +268,7 @@ app.post("/api/user/login", async (req, res) => {
     };
 
     // Generate token
-    const token = jwt.sign({ id: user._id, role: userData.role }, secretKey, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id, role: userData.role }, jwtSecret, { expiresIn: '1h' });
 
     res.status(200).json({ 
         token, 
