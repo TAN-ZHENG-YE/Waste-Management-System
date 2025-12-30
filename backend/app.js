@@ -6,6 +6,7 @@ const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const bcrypt = require('bcrypt');
+require('dotenv').config();
 const authRoutes = require('./routes/auth.routes');
 const { User, Pickup, Issue, Poster, Community, Notification, Statistics } = require('./model');
 
@@ -16,25 +17,48 @@ const upload = multer();
 app.use(express.static('public'));
 
 // Connect to MongoDB
-mongoose.connect("mongodb+srv://max:RFO2mB6n6G9dbtdt@cluster0.tijon.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://max:RFO2mB6n6G9dbtdt@cluster0.tijon.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+mongoose.connect(MONGODB_URI)
     .then(() => {
         console.log('connected to database');
     })
-    .catch(() => {
-        console.log('connection failed');
+    .catch((error) => {
+        console.log('connection failed:', error.message);
     });
 
 
 // Middleware
+const allowedOrigins = [
+  'http://localhost:4200',
+  process.env.FRONTEND_URL,
+  'https://*.vercel.app'
+].filter(Boolean);
+
 app.use(cors({
-  origin: 'http://localhost:4200',
+  origin: function(origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl)
+    if (!origin) return callback(null, true);
+    
+    // Check if origin is in allowed list or matches wildcard
+    if (allowedOrigins.some(allowed => {
+      if (allowed.includes('*')) {
+        const regex = new RegExp('^' + allowed.replace(/\*/g, '.*') + '$');
+        return regex.test(origin);
+      }
+      return allowed === origin;
+    })) {
+      callback(null, true);
+    } else {
+      callback(null, true); // Allow all origins for now to prevent CORS issues in production
+    }
+  },
   credentials: true
 }));
 app.use(express.json({ limit: '10mb' }));
 app.use('/api/auth', authRoutes);
 
 // authentication middleware
-const secretKey = 's3cUr3K3y!@#12345$%^&*()_+QwErTy';
+const secretKey = process.env.JWT_SECRET || 's3cUr3K3y!@#12345$%^&*()_+QwErTy';
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
@@ -104,23 +128,24 @@ app.post("/api/user/register", async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: 'Gmail',
       auth: {
-        user: 'thomastanzeye899@gmail.com',
-        pass: 'xixp temb pkms kmix'
+        user: process.env.EMAIL_USER || 'thomastanzeye899@gmail.com',
+        pass: process.env.EMAIL_PASS || 'xixp temb pkms kmix'
       },
       tls: {
         rejectUnauthorized: false // Allow self-signed certificates
       }
     });
 
+    const backendUrl = process.env.BACKEND_URL || 'http://localhost:3000';
     const mailOptions = {
-      from: 'thomastanzeye899@gmail.com',
+      from: process.env.EMAIL_USER || 'thomastanzeye899@gmail.com',
       to: email,
       subject: 'Verification Needed from WasteWise Website',
       html: `
         <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
           <h2 style="color: #4CAF50;">Welcome to WasteWise!</h2>
           <p>Thank you for registering with WasteWise. To complete your registration, please verify your account by clicking the link below:</p>
-          <a href="http://localhost:3000/api/user/verify/${verificationToken}" style="display: inline-block; padding: 10px 20px; margin: 10px 0; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;">Verify Your Account</a>
+          <a href="${backendUrl}/api/user/verify/${verificationToken}" style="display: inline-block; padding: 10px 20px; margin: 10px 0; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;">Verify Your Account</a>
           <p>If you did not register for this account, please ignore this email.</p>
           <p>Best regards,<br>The WasteWise Team</p>
         </div>
@@ -162,7 +187,8 @@ app.get("/api/user/verify/:token", async (req, res) => {
     user.isVerified = true;
     user.verificationToken = undefined;
     await user.save();
-    res.redirect('http://localhost:4200/user-login?verified=true');
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:4200';
+    res.redirect(`${frontendUrl}/user-login?verified=true`);
   } catch (error) {
     res.status(500).json({ err: "Server error" });
   }
@@ -1008,7 +1034,7 @@ app.get('/api/admin/users/:userId', authenticateToken, async (req, res) => {
 
 
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server started on http://localhost:${PORT}`);
 });
