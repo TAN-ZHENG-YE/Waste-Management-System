@@ -1070,9 +1070,12 @@ app.get('/api/admin/users/:userId', authenticateToken, async (req, res) => {
 
 
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server started on http://localhost:${PORT}`);
-});
+// Only start the server if this file is run directly (not imported as a module)
+if (require.main === module) {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Server started on http://localhost:${PORT}`);
+  });
+}
 
 module.exports = app;

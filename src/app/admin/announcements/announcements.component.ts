@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NotificationService } from '../../../service/notification.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-announcements',
@@ -9,7 +10,7 @@ import { NotificationService } from '../../../service/notification.service';
 })
 export class AnnouncementsComponent implements OnInit {
   selectedFile: File | null = null;
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = environment.apiUrl;
   communityName: string = '';
   userData: any;
 

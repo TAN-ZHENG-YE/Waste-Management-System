@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 interface Poster {
   url: string;
@@ -13,7 +14,7 @@ interface Poster {
   styleUrls: ['./homepage.component.css']
 })
 export class HomepageComponent implements OnInit, OnDestroy {
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = environment.apiUrl;
   buttons = [
     { image: '/image/360_F_921495709_xuELeKTVA1jTnRUvPWxP2uuNYqw9EtQ5.jpg', text: 'Schedule Waste Pickup', link: '/schedule-pickup' },
     { image: '/image/view-pick-up-history.jpg', text: 'View Pickup History', link: '/view-history' },

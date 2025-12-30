@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, catchError } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
+import { environment } from '../environments/environment';
 
 export interface Notification {
   _id?: string;
@@ -18,7 +19,7 @@ export interface Notification {
   providedIn: 'root'
 })
 export class NotificationService {
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = environment.apiUrl;
   private notifications = new BehaviorSubject<Notification[]>([]);
   private unreadCount = new BehaviorSubject<number>(0);
 

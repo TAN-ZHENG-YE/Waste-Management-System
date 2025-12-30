@@ -4,12 +4,13 @@ import { Router } from '@angular/router';
 import { Subject, BehaviorSubject, Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { NotificationService } from './notification.service';
+import { environment } from '../environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
-    private apiUrl = 'http://localhost:3000/api';
+    private apiUrl = environment.apiUrl;
     private authStatusListener = new Subject<any>();
     private user: any = null;
     private currentUserSubject = new BehaviorSubject<any>(null);

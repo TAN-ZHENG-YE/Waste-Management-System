@@ -4,6 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { UserProfileService } from '../../service/userProfile.service';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { AuthService } from '../../service/auth.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-profile-settings',
@@ -12,7 +13,7 @@ import { AuthService } from '../../service/auth.service';
 })
 export class ProfileSettingsComponent implements OnInit {
   profileForm: FormGroup;
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = environment.apiUrl;
   private userId: string = '';
   communityList: string[] = [];
   isUser: boolean = false;
