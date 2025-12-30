@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../../service/auth.service';
 import { finalize } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-issues',
@@ -14,7 +15,7 @@ export class IssuesComponent implements OnInit {
   showDetail: boolean = false;
   showResolveConfirmation: boolean = false;
   isLoading: boolean = false;
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = environment.apiUrl;
 
   constructor(
     private http: HttpClient, 

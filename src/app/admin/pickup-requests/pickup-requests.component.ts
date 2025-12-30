@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { finalize } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-pickup-requests',
@@ -15,7 +16,7 @@ export class PickupRequestsComponent implements OnInit {
   selectedRequest: any = null;
   showActionModal: boolean = false;
   isLoading: boolean = false;
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = environment.apiUrl;
 
   constructor(
     private http: HttpClient,

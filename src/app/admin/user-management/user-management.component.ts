@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../../service/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-user-management',
@@ -16,7 +17,7 @@ export class UserManagementComponent implements OnInit {
   showMessageModal: boolean = false;
   messageForm: FormGroup;
   isSending: boolean = false;
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = environment.apiUrl;
   showDetailsModal: boolean = false;
 
   constructor(

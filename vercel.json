@@ -2,18 +2,29 @@
   "version": 2,
   "builds": [
     {
-      "src": "backend/app.js",
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist/assignment/browser"
+      }
+    },
+    {
+      "src": "api/index.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "backend/app.js"
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|webp|ico|json|woff|woff2|ttf|eot))",
+      "dest": "/$1"
     },
     {
       "src": "/(.*)",
-      "dest": "/$1"
+      "dest": "/index.html"
     }
   ],
   "env": {

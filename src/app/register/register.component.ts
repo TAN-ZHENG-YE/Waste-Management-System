@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../service/auth.service';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-register',
@@ -11,7 +12,7 @@ import { HttpClient } from '@angular/common/http';
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   communityList: string[] = [];
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = environment.apiUrl;
 
   constructor(
     private fb: FormBuilder, 

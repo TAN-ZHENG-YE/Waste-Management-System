@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { AuthService } from '../../../service/auth.service';
+import { environment } from '../../../environments/environment';
 
 Chart.register(...registerables);
 
@@ -17,7 +18,7 @@ export class ReportsComponent implements AfterViewInit {
     setTimeout(() => {
       const community = this.authService.getUser().communityName;
 
-      this.httpClient.get(`http://localhost:3000/api/user/statistics/${community}/all`)
+      this.httpClient.get(`${environment.apiUrl}/user/statistics/${community}/all`)
       .subscribe({
           next: (res: any) => this.initializeCharts(res.data),
           error: (err) => alert(err.error.err || 'Server error')
