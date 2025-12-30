@@ -1,0 +1,41 @@
+<div class="flex-container">
+    <div class="background"></div>
+    <h1 class="title">Your Pickup History</h1>
+    <mat-card class="main-container">
+        <!-- filter -->
+        <div class="row-flex">
+            <mat-label class="horizontal-padding"><b>Filter Type: </b></mat-label>
+            <mat-chip-listbox multiple #chipList>
+                <mat-chip-option *ngFor="let wasteType of wasteTypes" [value]="wasteType">
+                    {{wasteType}}
+                </mat-chip-option>
+            </mat-chip-listbox>
+        </div>
+        <!-- list history -->
+        <ng-container *ngIf="list && list.length > 0; else noHistory">
+            <mat-card *ngFor="let item of list | filterWasteType: chipList.value | slice: startIndex : endIndex" appearance="outlined">
+                <mat-card-content>
+                    <div class="history-header">
+                        <p><b>Date</b>: {{item.date | date: 'MM/dd/YYYY'}}</p>
+                        <span class="status-badge" [ngClass]="item.status?.toLowerCase()">
+                            {{ item.status || 'Pending' }}
+                        </span>
+                    </div>
+                    <div class="row-flex">
+                        <mat-label class="horizontal-padding"><b>Collected Type: </b></mat-label>
+                        <mat-chip-set>
+                            <mat-chip *ngFor="let type of item.wasteType">{{type}}</mat-chip>
+                        </mat-chip-set>
+                    </div>
+                    <p><b>Note</b>: {{item.note}}</p>
+                </mat-card-content>
+            </mat-card>
+        </ng-container>
+        <ng-template #noHistory>
+            <p>No history</p>
+        </ng-template>
+        <!-- pagination -->
+        <mat-paginator [length]="(list | filterWasteType: chipList.value).length" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"
+            (page)="handlePageEvent($event)" aria-label="Select page"></mat-paginator>
+    </mat-card>
+</div>

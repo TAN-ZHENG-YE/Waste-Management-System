@@ -1,0 +1,48 @@
+<div class="flex-container">
+    <div class="background"></div>
+    <h1 class="title">Schedule Pickup</h1>
+    <mat-card class="main-container">
+        <form class="flex-container" [formGroup]="scheduleForm" (ngSubmit)="onSubmit()">
+            <mat-card appearance="outlined">
+                <mat-card-content>
+                    <p><b>Pick a available date to schedule pickup your waste*</b></p>
+                    <mat-form-field>
+                        <mat-label>Choose a date</mat-label>
+                        <input matInput formControlName="date" [min]="minDate" [matDatepicker]="picker" required>
+                        <mat-error>Please enter a valid date</mat-error>
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </mat-card-content>
+            </mat-card>
+            <mat-card appearance="outlined">
+                <mat-card-content>
+                    <p><b>Select the waste types that need to be picked up*</b></p>
+                    <ul formGroupName="wasteType">
+                        @for (waste of wasteTypes; track waste) {
+                        <li>
+                            <mat-checkbox [formControlName]="waste">
+                                {{waste}}
+                            </mat-checkbox>
+                        </li>
+                        }
+                    </ul>
+                    @if (scheduleForm.controls.wasteType.invalid && submitOnce) {
+                        <mat-error>Please select at least one waste type</mat-error>
+                    }
+                </mat-card-content>
+            </mat-card>
+            <mat-card appearance="outlined">
+                <mat-card-content>
+                    <p><b>Additional Notes</b></p>
+                    <mat-form-field>
+                        <mat-label>extra information</mat-label>
+                        <input matInput formControlName="note">
+                    </mat-form-field>
+                </mat-card-content>
+            </mat-card>
+            <button mat-flat-button type="submit">Submit</button>
+        </form>
+    </mat-card>
+</div>

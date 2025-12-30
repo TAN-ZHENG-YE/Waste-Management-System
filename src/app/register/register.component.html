@@ -1,0 +1,69 @@
+<body>
+  <div class="container">
+    <h2>Register</h2>
+    <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+      <div>
+        <label for="fullName">Full Name</label>
+        <input id="fullName" formControlName="fullName" type="text" placeholder="e.g. Michelle Yeoh" />
+        <div *ngIf="registerForm.controls['fullName'].touched && registerForm.controls['fullName'].invalid" class="error-message">
+          Full Name is required.
+        </div>
+      </div>
+    
+      <div>
+        <label for="contactNumber">Contact Number</label>
+        <input id="contactNumber" formControlName="contactNumber" type="text" placeholder="e.g. 0101233123" />
+        <div *ngIf="registerForm.controls['contactNumber'].touched && registerForm.controls['contactNumber'].invalid" class="error-message">
+          <div *ngIf="registerForm.controls['contactNumber'].errors?.['required']">Contact Number is required.</div>
+          <div *ngIf="registerForm.controls['contactNumber'].errors?.['pattern']">Please enter a valid contact number (numbers only).</div>
+        </div>
+      </div>
+    
+      <div>
+        <label for="email">Email</label>
+        <input id="email" formControlName="email" type="email" placeholder="e.g. example@email.com" />
+        <div *ngIf="registerForm.controls['email'].touched && registerForm.controls['email'].invalid" class="error-message">
+          <div *ngIf="registerForm.controls['email'].errors?.['required']">Email is required.</div>
+          <div *ngIf="registerForm.controls['email'].errors?.['email']">Invalid email format. Please enter a valid email.</div>
+        </div>
+      </div>
+    
+      <div>
+        <label for="password">Password</label>
+        <input id="password" formControlName="password" type="password" />
+        <div *ngIf="registerForm.controls['password'].touched && registerForm.controls['password'].invalid" class="error-message">
+          <div *ngIf="registerForm.controls['password'].errors?.['required']">Password is required.</div>
+          <div *ngIf="registerForm.controls['password'].errors?.['minlength']">Password must be at least 8 characters long.</div>
+        </div>
+      </div>
+
+      <div>
+        <label for="communityName">Community Name</label><br>
+        <select id="communityName" formControlName="communityName">
+          <option value="">Select Community</option>
+          <option *ngFor="let community of communityList" [value]="community">{{community}}</option>
+        </select>
+        <div *ngIf="registerForm.controls['communityName'].touched && registerForm.controls['communityName'].invalid" class="error-message">
+          Community Name is required.
+        </div>
+      </div>
+    
+      <div>
+        <label for="residentialAddress">Residential Address</label>
+        <input id="residentialAddress" formControlName="residentialAddress" type="text" placeholder="e.g. No. 12, Jalan ABC, 47000 Shah Alam, Selangor" />
+        <div *ngIf="registerForm.controls['residentialAddress'].touched && registerForm.controls['residentialAddress'].invalid" class="error-message">
+          Residential Address is required.
+        </div>
+      </div>
+    
+      <button type="submit">Register</button>
+    </form>
+
+    <a routerLink="/user-login">Already have an account? Login here.</a>
+  </div>
+</body>
+
+
+
+
+  

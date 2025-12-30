@@ -1,0 +1,43 @@
+<mat-toolbar color="primary">
+    <a class="logo" routerLink="/">WasteWise</a>
+    <span class="spacer"></span>
+
+    <!-- Navigation -->
+    <a mat-button routerLink="/about-us">About Us</a>
+
+    @if (userStatus === 'admin') {
+    <a mat-button routerLink="/admin-dashboard">Dashboard</a>
+    }
+    @if (userStatus === 'user') {
+    <a mat-button routerLink="/schedule-pickup">Schedule Pickup</a>
+    <a mat-button routerLink="/report-issues">Report Issues</a>
+    <a mat-button routerLink="/view-history">View History</a>
+    <a mat-button routerLink="/view-report">View Report</a>
+    }
+
+    <!-- Notification Bell Icon - Only show for logged in users -->
+    @if (userStatus === 'user' || userStatus === 'admin') {
+    <button class="button-icon" mat-icon-button (click)="openNotifications()">
+        <mat-icon [matBadge]="unreadNotifications" 
+                  [matBadgeHidden]="unreadNotifications === 0"
+                  matBadgeColor="warn">
+            notifications
+        </mat-icon>
+    </button>
+    }
+
+    <!-- Profile Button -->
+    <button class="button-icon" mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>account_circle</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+        @if (userStatus === 'guest') {
+        <button mat-menu-item routerLink="/user-login">Login/Register</button>
+        }
+        @else if (userStatus === 'user' || userStatus === 'admin') {
+        <button mat-menu-item (click)="openProfileSettings()">Profile Setting</button>
+        <button mat-menu-item (click)="openChangePasswordDialog()">Change Password</button>
+        <button mat-menu-item (click)="onLogout()">Logout</button>
+        }
+    </mat-menu>
+</mat-toolbar>

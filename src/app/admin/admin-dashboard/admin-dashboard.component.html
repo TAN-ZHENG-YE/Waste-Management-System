@@ -1,0 +1,13 @@
+<div class="admin-dashboard">
+  <app-sidebar (tabChanged)="setActiveTab($event)"></app-sidebar>
+  <div class="main-content">
+    <h1>Community Dashboard</h1>
+    <app-community-management *ngIf="activeTab === 'community'"></app-community-management>
+    <app-user-management *ngIf="activeTab === 'users'"></app-user-management>
+    <app-issues *ngIf="activeTab === 'issues'"></app-issues>
+    <app-reports *ngIf="activeTab === 'reports'"></app-reports>
+    <app-announcements *ngIf="activeTab === 'announcements'"></app-announcements>
+    <app-pickup-requests *ngIf="activeTab === 'pickup-requests'"></app-pickup-requests>
+  </div>
+</div>
+  

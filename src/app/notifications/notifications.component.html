@@ -1,0 +1,24 @@
+  <h2 class="notifications-title">Notifications</h2>
+  <div class="notifications-list">
+    <div *ngFor="let notification of notifications" class="notification-item">
+      <div class="notification-content">
+        <div class="notification-title">{{ notification.message }}</div>
+        <div class="notification-date" *ngIf="notification.type !== 'announcement'">
+          {{ notification.createdAt | date:'MMM d, y, h:mm:ss a' }}
+        </div>
+        <div class="notification-date" *ngIf="notification.type === 'announcement'">
+          {{ notification.createdAt | date:'MMM d, y, h:mm:ss a':'UTC' }}
+        </div>
+      </div>
+      <button class="delete-button" (click)="deleteNotification(notification)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+    <div *ngIf="notifications.length === 0" class="no-notifications">
+      No new notifications available.
+    </div>
+  </div>
+  <div class="notifications-actions">
+    <button mat-button (click)="clearAll()">Clear All</button>
+    <button mat-button color="primary" (click)="close()">Close</button>
+  </div>

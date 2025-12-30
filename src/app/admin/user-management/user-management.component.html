@@ -1,0 +1,116 @@
+<div class="tab-content fade-in">
+  <div class="card">
+    <h2>User Management</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Community</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{ user.fullName }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.communityName }}</td>
+          <td>
+            <button class="btn btn-info" (click)="onViewUserDetails(user)">View Details</button>
+            <button class="btn btn-primary" (click)="onSendMessage(user)">Send Message</button>
+            <button class="btn btn-danger" (click)="onDeleteUser(user)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div *ngIf="selectedUser && !showMessageModal" class="modal">
+  <div class="modal-content">
+    <h2>User Details</h2>
+    
+    <div class="user-details">
+      <img [src]="selectedUser.profilePic || '/image/profile-pic-default.webp'" alt="Profile Picture" class="profile-image">
+
+      <div class="detail-row">
+        <span class="label">Name:</span>
+        <span class="value">{{ selectedUser.fullName }}</span>
+      </div>
+
+      <div class="detail-row">
+        <span class="label">Email:</span>
+        <span class="value">{{ selectedUser.email }}</span>
+      </div>
+
+      <div class="detail-row">
+        <span class="label">Contact Number:</span>
+        <span class="value">{{ selectedUser.contactNumber ? selectedUser.contactNumber : 'Not provided' }}</span>
+      </div>
+
+      <div class="detail-row">
+        <span class="label">Community:</span>
+        <span class="value">{{ selectedUser.communityName }}</span>
+      </div>
+
+      <div class="detail-row">
+        <span class="label">Residential Address:</span>
+        <span class="value">{{ selectedUser.residentialAddress ? selectedUser.residentialAddress : 'Not provided' }}</span>
+      </div>
+
+      <div class="detail-row">
+        <span class="label">Account Status:</span>
+        <span class="value">{{ selectedUser.isVerified ? 'Verified' : 'Not Verified' }}</span>
+      </div>
+
+      <div class="detail-row">
+        <span class="label">Member Since:</span>
+        <span class="value">{{ selectedUser.createdAt | date:'medium' }}</span>
+      </div>
+
+      <div class="detail-row">
+        <span class="label">Role:</span>
+        <span class="value">{{ selectedUser.role || 'User' }}</span>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-secondary" (click)="closeUserDetails()">Close</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showMessageModal" class="modal">
+  <div class="modal-content">
+    <h3>Send Message to {{ selectedUser?.fullName }}</h3>
+    <form [formGroup]="messageForm" (ngSubmit)="sendMessage()">
+      <div class="form-group">
+        <textarea 
+          formControlName="message" 
+          placeholder="Enter your message here..."
+          rows="4"
+          class="message-input">
+        </textarea>
+        <div class="error-message" *ngIf="messageForm.get('message')?.touched && messageForm.get('message')?.invalid">
+          Message is required
+        </div>
+      </div>
+      <div class="button-group">
+        <button type="submit" class="btn btn-primary" [disabled]="messageForm.invalid || isSending">
+          {{ isSending ? 'Sending...' : 'Send Message' }}
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="closeMessageModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div *ngIf="showDeleteConfirmation" class="modal">
+  <div class="modal-content">
+    <h2>Confirm Deletion</h2>
+    <p>Are you sure you want to delete {{ userToDelete?.fullName }} from your community?</p>
+    <button class="btn btn-danger" (click)="confirmDeleteUser()">Yes, Delete</button>
+    <button class="btn btn-secondary" (click)="cancelDeleteUser()">Cancel</button>
+  </div>
+</div>
+  

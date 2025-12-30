@@ -1,0 +1,40 @@
+<body>
+  <div class="report-issue-container">
+    <h2>Report Waste Management Issue</h2>
+    <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+        <!-- Issue Type (Dropdown) -->
+        <label for="issueType">Issue Type</label>
+        <select id="issueType" formControlName="issueType">
+            <option value="" disabled>Select Issue Type</option>
+            <option *ngFor="let type of issueTypes" [value]="type">{{ type }}</option>
+        </select>
+        <div *ngIf="uploadForm.get('issueType')?.invalid && uploadForm.get('issueType')?.touched" class="error">
+          Issue type is required.
+        </div>
+      
+        <!-- Location -->
+        <label for="location">Location</label>
+        <input id="location" formControlName="location" />
+        <div *ngIf="uploadForm.get('location')?.invalid && uploadForm.get('location')?.touched" class="error">
+          Location is required.
+        </div>
+      
+        <!-- Description -->
+        <label for="description">Description</label>
+        <textarea id="description" formControlName="description"></textarea>
+        <div *ngIf="uploadForm.get('description')?.invalid && uploadForm.get('description')?.touched" class="error">
+          Description is required.
+        </div>
+      
+        <!-- File Input -->
+        <label for="photo">Upload Photo</label>
+        <input type="file" id="photo" (change)="onFileSelected($event)" />
+        <div *ngIf="uploadForm.get('photo')?.invalid && uploadForm.get('photo')?.touched" class="error">
+          A photo is required.
+        </div>
+      
+        <button type="submit" [disabled]="uploadForm.invalid">Submit</button>
+      </form>
+  </div>
+</body>
+  

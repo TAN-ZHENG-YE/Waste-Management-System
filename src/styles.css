@@ -1,0 +1,55 @@
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: auto;
+    overflow-x: hidden;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+:root {
+    --mat-toolbar-container-background-color: #45a049;
+    --mat-toolbar-container-text-color: white;
+    --mat-paginator-container-background-color: white;
+    --mdc-outlined-card-container-color: #f8fdf8;
+    --mdc-filled-text-field-container-color: #e1ece1;
+    --mat-datepicker-calendar-container-background-color: #e1ece1;
+    --mat-select-panel-background-color: #eef1ed;
+    --mat-icon-button-hover-state-layer-opacity: 0.2;
+    --mat-icon-button-focus-state-layer-opacity: 0.3;
+    --mat-icon-button-pressed-state-layer-opacity: 0.3;
+    --mat-text-button-state-layer-color: #424242;
+    --mat-text-button-ripple-color: rgb(0 0 0 / 12%);
+    --mat-text-button-hover-state-layer-opacity: 0.2;
+    --mat-text-button-focus-state-layer-opacity: 0.3;
+    --mat-text-button-pressed-state-layer-opacity: 0.3;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.title {
+    font-size: 36px;
+    font-family: 'Aileron';
+    font-weight: bold;
+    color: white;
+}
+
+.notification-dialog .mat-mdc-dialog-container {
+  padding: 0;
+}
+
+.notification-dialog .mat-mdc-dialog-surface {
+  border-radius: 8px;
+}

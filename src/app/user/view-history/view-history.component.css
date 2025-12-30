@@ -1,0 +1,72 @@
+.background {
+    position: fixed;
+    background-image: url('/image/pexels-ron-lach-9543405.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    top: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100vh;
+}
+
+mat-card {
+    width: 85vw;
+    max-width: 800px;
+    margin: 5px 0px;
+}
+
+mat-card-content p {
+    margin-block-start: 0.5em;
+    margin-block-end: 0.5em;
+}
+
+.row-flex {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.horizontal-padding {
+    padding-right: 15px;
+}
+
+.main-container {
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    max-width: max-content;
+    padding: 10px 20px;
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.status-badge.pending {
+    background-color: #ffd700;
+    color: #000;
+}
+
+.status-badge.approved {
+    background-color: #28a745;
+    color: white;
+}
+
+.status-badge.rejected {
+    background-color: #dc3545;
+    color: white;
+}

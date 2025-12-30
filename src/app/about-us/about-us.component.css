@@ -1,0 +1,39 @@
+.about-us {
+    background-image: url("/image/Garbage-Collection-Vehicle-Market-2048x1363.jpg");
+}
+
+.our-mission {
+    background-image: url("/image/StockCake-Eco-friendly\ Icons\ Set_1729096175.jpg");
+}
+
+.our-history {
+    background-image: url("/image/rapeseed-6599950_1920.jpg");
+}
+
+.our-team {
+    background-image: url("/image/construction-worker-2606310_1280.jpg");
+}
+
+.contact-info {
+    background-image: url("/image/pexels-pixabay-122429.jpg");
+}
+
+.container {
+    height: 100vh;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding-top: 40vh;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.75);
+}
+
+h1 {
+    font-size: 70px;
+}
+
+p {
+    font-size: xx-large;
+}

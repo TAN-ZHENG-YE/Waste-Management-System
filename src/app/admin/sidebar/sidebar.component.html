@@ -1,0 +1,25 @@
+<div class="sidebar">
+    <div class="sidebar-header">
+      <h2>Admin Dashboard</h2>
+    </div>
+    <nav>
+      <a (click)="setActiveTab('community')" [class.active]="activeTab === 'community'">
+        <i class="fas fa-home"></i> Community Management
+      </a>
+      <a (click)="setActiveTab('users')" [class.active]="activeTab === 'users'">
+        <i class="fas fa-users"></i> User Management
+      </a>
+      <a (click)="setActiveTab('pickup-requests')" [class.active]="activeTab === 'pickup-requests'"> 
+        <i class="fas fa-truck"></i> Pickup Requests
+      </a>
+      <a (click)="setActiveTab('issues')" [class.active]="activeTab === 'issues'">
+        <i class="fas fa-exclamation-circle"></i> Issues Management
+      </a>
+      <a (click)="setActiveTab('reports')" [class.active]="activeTab === 'reports'">
+        <i class="fas fa-chart-bar"></i> Reports
+      </a>
+      <a (click)="setActiveTab('announcements')" [class.active]="activeTab === 'announcements'">
+        <i class="fas fa-bullhorn"></i> Announcements
+      </a>
+    </nav>
+  </div>

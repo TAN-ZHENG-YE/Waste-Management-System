@@ -1,0 +1,32 @@
+<div class="tab-content fade-in">
+  <!-- Send Announcements Feature -->
+  <div class="card">
+    <h2>Send Community Announcement</h2>
+    <textarea 
+      placeholder="Enter your announcement here" 
+      #announcementText
+      class="form-control"
+    ></textarea>
+    <button 
+      class="btn btn-primary" 
+      (click)="onMakeAnnouncement(announcementText.value.trim())">
+      Send Announcement
+    </button>
+  </div>
+
+  <!-- Poster Upload Feature -->
+  <div class="card">
+    <h2>Upload News by Poster</h2>
+    <input 
+      type="file" 
+      (change)="onFileSelected($event)" 
+      accept="image/*" 
+      class="file-input" />
+    <button 
+      class="btn btn-primary upload-btn" 
+      (click)="onUploadPoster()">
+      Upload Poster
+    </button>
+  </div>
+</div>
+  

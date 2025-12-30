@@ -1,0 +1,31 @@
+<div class="flex-container">
+    <div class="background"></div>
+    <h1 class="title">Generate Reports</h1>
+
+    <mat-card class="main-container">
+        <form (ngSubmit)="generateReport()" [formGroup]="filterForm">
+            <mat-form-field>
+                <mat-label for="reportType">Select Report Type:</mat-label>
+                <mat-select formControlName="reportType" required>
+                    <mat-option value="pickupStatistics">Pickup Statistics</mat-option>
+                    <mat-option value="issueStatistics">Issues Reported</mat-option>
+                    <mat-option value="recyclingRates">Recycling Rates</mat-option>
+                    <mat-option value="communityActiveMembers">Community Active Members</mat-option>
+                </mat-select>
+                <mat-error>Please select a report type</mat-error>
+            </mat-form-field>
+            <button mat-flat-button type="submit">Generate Report</button>
+        </form>
+        @if (true) {
+        <div>
+            <mat-card appearance="outlined">
+                <mat-card-title>{{ chartTitle }}</mat-card-title>
+                <mat-card-content>
+                    <canvas baseChart [datasets]="chartData" [labels]="chartLabels" [options]="chartOptions"
+                        [legend]="true" [type]="chartType"></canvas>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        }
+    </mat-card>
+</div>

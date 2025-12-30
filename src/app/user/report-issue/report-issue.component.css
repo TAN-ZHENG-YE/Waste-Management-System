@@ -1,0 +1,95 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('/image/pexels-thirdman-7655826.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: auto; 
+  }
+  
+  .report-issue-container {
+      width: 50%;
+      max-width: 600px;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.556);
+      margin: 20px auto;
+  }
+  
+     
+  h2 {
+      text-align: center;
+      font-size: 36px;
+      font-family: 'Aileron'; 
+      font-weight: bold;
+      margin-bottom: 40px;
+      color: #333;
+  }
+  
+  label {
+      font-weight: bold;
+      margin-bottom: 8px;
+      display: block;
+      color: #555;
+  }
+  
+  input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+      background-color: #fafafa;
+  }
+  
+  textarea {
+      height: 120px;
+  }
+  
+  input[type="file"] {
+      padding: 10px;
+      border: none;
+      background-color: #f9f9f9;
+      margin-bottom: 20px;
+  }
+  
+  button {
+      width: 100%;
+      padding: 15px;
+      background-color: #28a745;
+      color: #fff;
+      font-size: 18px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+  }
+  
+  button:hover {
+      background-color: #218838;
+  }
+  
+  button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+  }
+  
+  .error {
+      color: red;
+      font-size: 14px;
+      margin-top: -10px;
+      margin-bottom: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .report-issue-container {
+      width: 90%;
+    }
+  }
+  
+  

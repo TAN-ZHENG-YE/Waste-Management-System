@@ -1,0 +1,74 @@
+<div class="profile-settings">
+  <div class="profile-settings-container">
+    <h2>Profile Settings</h2>
+    <div class="profile-picture-container">
+      <img [src]="profileForm.get('profilePic')?.value || '/image/profile-pic-default.webp'" alt="User Profile" class="profile-picture">
+      <button mat-button color="primary" (click)="triggerFileInput()">Edit Profile Picture</button>
+      <input type="file" id="file-input" (change)="onFileSelected($event)" accept="image/*" style="display: none;" />
+    </div>
+
+    <form [formGroup]="profileForm" (ngSubmit)="onUpdateProfile()">
+      <div class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Full Name</mat-label>
+          <input matInput formControlName="fullName" required>
+          <mat-error *ngIf="profileForm.get('fullName')?.hasError('required') && profileForm.get('fullName')?.touched">
+            Full Name is required.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" required type="email">
+          <mat-error *ngIf="profileForm.get('email')?.hasError('required') && profileForm.get('email')?.touched">
+            Email is required.
+          </mat-error>
+          <mat-error *ngIf="profileForm.get('email')?.hasError('email') && profileForm.get('email')?.touched">
+            Please enter a valid email address.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Contact Number</mat-label>
+          <input matInput formControlName="contactNumber" required>
+          <mat-error *ngIf="profileForm.get('contactNumber')?.hasError('required') && profileForm.get('contactNumber')?.touched">
+            Contact Number is required.
+          </mat-error>
+          <mat-error *ngIf="profileForm.get('contactNumber')?.hasError('pattern') && profileForm.get('contactNumber')?.touched">
+            Please enter a valid contact number (numbers only).
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Community Name</mat-label>
+          <ng-container *ngIf="isUser; else adminCommunity">
+            <mat-select formControlName="communityName" required>
+              <mat-option *ngFor="let community of communityList" [value]="community">
+                {{community}}
+              </mat-option>
+            </mat-select>
+          </ng-container>
+          <ng-template #adminCommunity>
+            <input matInput formControlName="communityName" required>
+          </ng-template>
+          <mat-error *ngIf="profileForm.get('communityName')?.hasError('required') && profileForm.get('communityName')?.touched">
+            Community Name is required.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Residential Address</mat-label>
+          <textarea matInput formControlName="residentialAddress" required></textarea>
+          <mat-error *ngIf="profileForm.get('residentialAddress')?.hasError('required') && profileForm.get('residentialAddress')?.touched">
+            Residential Address is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="button-container">
+        <button mat-raised-button color="primary" type="submit" [disabled]="!profileForm.valid">Update Profile</button>
+        <button mat-raised-button color="warn" type="button" (click)="onClose()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

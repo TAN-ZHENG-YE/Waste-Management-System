@@ -1,0 +1,67 @@
+<div class="tab-content fade-in">
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h2>Community Details</h2>
+      <button class="btn btn-secondary" (click)="refreshData()">
+        <i class="fas fa-sync"></i> Refresh
+      </button>
+    </div>
+    
+    <div *ngIf="loading" class="loading-spinner">
+      Loading...
+    </div>
+
+    <div *ngIf="error" class="error-message">
+      {{ error }}
+    </div>
+
+    <div *ngIf="!loading && !error">
+      <div *ngIf="!isEditing">
+        <p><strong>Community Name:</strong> {{ communityDetails.name }}</p>
+        <p><strong>Address:</strong> {{ communityDetails.address }}</p>
+        <p><strong>Pickup Schedule:</strong> {{ communityDetails.pickupSchedule }}</p>
+        <p><strong>Total Members:</strong> {{ communityDetails.totalMembers }}</p>
+        <button class="btn btn-primary" (click)="toggleEdit()">Edit Details</button>
+      </div>
+
+      <form *ngIf="isEditing" (ngSubmit)="onSaveCommunityChanges()">
+        <div class="form-group">
+          <label for="community-name">Community Name</label>
+          <input 
+            id="community-name" 
+            [(ngModel)]="communityDetails.name" 
+            name="communityName" 
+            readonly>
+        </div>
+        <div class="form-group">
+          <label for="community-address">Community Address</label>
+          <input 
+            id="community-address" 
+            [(ngModel)]="communityDetails.address" 
+            name="communityAddress" 
+            class="form-control"
+            required>
+        </div>
+        <div class="form-group">
+          <label for="pickup-schedule">Waste Pickup Schedule</label>
+          <input 
+            id="pickup-schedule" 
+            [(ngModel)]="communityDetails.pickupSchedule" 
+            name="pickupSchedule" 
+            class="form-control"
+            required>
+        </div>
+        <div class="button-group">
+          <button type="submit" class="btn btn-success">Save Changes</button>
+          <button type="button" class="btn btn-primary" (click)="toggleEdit()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Community Statistics</h3>
+    <canvas id="communityStatsChart"></canvas>
+  </div>
+</div>
+  

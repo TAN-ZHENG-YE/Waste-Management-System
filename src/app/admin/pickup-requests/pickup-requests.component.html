@@ -1,0 +1,91 @@
+<div class="tab-content fade-in">
+  <div class="card">
+    <h2>Pickup Requests Management</h2>
+    <div class="table-container">
+      <table class="requests-table">
+        <thead>
+          <tr>
+            <th>Requester</th>
+            <th>Date</th>
+            <th>Waste Types</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let request of pickupRequests">
+            <td>{{ request.userName }}</td>
+            <td>{{ request.date | date:'medium' }}</td>
+            <td>
+              <div class="waste-types">
+                <span class="waste-type-chip" *ngFor="let type of request.wasteType">{{ type }}</span>
+              </div>
+            </td>
+            <td>
+              <span class="status-badge" [ngClass]="request.status.toLowerCase()">
+                {{ request.status }}
+              </span>
+            </td>
+            <td>
+              <button class="btn btn-info" (click)="onViewDetails(request)">
+                <i class="fas fa-eye"></i> View Details
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Action Modal -->
+<div *ngIf="showActionModal" class="modal">
+  <div class="modal-content">
+    <h3>Pickup Request Details</h3>
+    <div class="request-details">
+      <div class="detail-row">
+        <span class="label">Requester:</span>
+        <span class="value">{{ selectedRequest.userName }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Contact:</span>
+        <span class="value">{{ selectedRequest.userContact }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Date:</span>
+        <span class="value">{{ selectedRequest.date | date:'medium' }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Waste Types:</span>
+        <div class="waste-types">
+          <span class="waste-type-chip" *ngFor="let type of selectedRequest.wasteType">{{ type }}</span>
+        </div>
+      </div>
+      <div class="detail-row">
+        <span class="label">Address:</span>
+        <span class="value">{{ selectedRequest.residentialAddress }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Note:</span>
+        <span class="value">{{ selectedRequest.note || 'No additional notes' }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Status:</span>
+        <span class="status-badge" [ngClass]="selectedRequest.status.toLowerCase()">
+          {{ selectedRequest.status }}
+        </span>
+      </div>
+    </div>
+
+    <div class="action-buttons" *ngIf="selectedRequest.status === 'Pending'">
+      <button class="btn btn-success" (click)="updateRequestStatus('Approved')">
+        <i class="fas fa-check"></i> Approve
+      </button>
+      <button class="btn btn-danger" (click)="updateRequestStatus('Rejected')">
+        <i class="fas fa-times"></i> Reject
+      </button>
+    </div>
+
+    <button class="btn btn-secondary" (click)="closeModal()">Close</button>
+  </div>
+</div> 

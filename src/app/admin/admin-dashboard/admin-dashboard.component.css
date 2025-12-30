@@ -1,0 +1,16 @@
+h1{
+  font-size: 36px;
+  font-family: 'Aileron'; 
+  font-weight: bold;
+}
+
+.admin-dashboard {
+  display: flex;
+  height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}

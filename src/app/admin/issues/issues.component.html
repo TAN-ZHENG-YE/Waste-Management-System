@@ -1,0 +1,93 @@
+<div class="tab-content fade-in">
+    <div class="card">
+        <h2>Issues Management</h2>
+        
+        <!-- Loading spinner -->
+        <div *ngIf="isLoading" class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Loading issues...</p>
+        </div>
+
+        <!-- Issues table -->
+        <table *ngIf="!isLoading">
+            <thead>
+                <tr>
+                    <th>Report Time</th>
+                    <th>Issue Type</th>
+                    <th>Resolved</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let issue of issues">
+                    <td>{{ issue.createdAt | date: 'medium' }}</td>
+                    <td>{{ issue.issueType }}</td>
+                    <td>
+                        <i class="fas" [ngClass]="issue.resolved ? 'fa-check text-success' : 'fa-times text-danger'"></i>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" (click)="onViewDetail(issue)">View Detail</button>
+                        <button *ngIf="!issue.resolved" class="btn btn-secondary" (click)="onResolveIssue(issue)">
+                            Mark As Resolved
+                        </button>
+                    </td>
+                </tr>
+                <tr *ngIf="issues.length === 0">
+                    <td colspan="4" class="text-center">No issues reported</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Add some CSS for the loading spinner -->
+<style>
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+</style>
+@if (showDetail) {
+<div class="modal">
+    <div class="modal-content">
+        <h2>Issue Detail</h2>
+        <p><strong>Report By:</strong> {{ selectedIssue.userName }}</p>
+        <p><strong>Report Time:</strong> {{ selectedIssue.createdAt | date: 'medium' }}</p>
+        <p><strong>Issue Type:</strong> {{ selectedIssue.issueType }}</p>
+        <p><strong>Issue Description:</strong> {{ selectedIssue.description }}</p>
+        <p><strong>Issue Location:</strong> {{ selectedIssue.location }}</p>
+        <p><strong>Issue Resolved:</strong> {{ selectedIssue.resolved ? "Yes" : "No" }}</p>
+        <p><strong>Photo:</strong></p>
+        <img src="{{ selectedIssue.photo }}" alt="Issue Photo" height="300">
+        <br>
+        <button class="btn btn-primary" (click)="closeDetail()">Close</button>
+    </div>
+</div>
+}
+@if (showResolveConfirmation) {
+<div class="modal">
+    <div class="modal-content">
+        <h2>Confirm Resolve</h2>
+        <p>Are you sure you want to mark this issue as resolved?</p>
+        <button class="btn btn-danger" (click)="confirmResolve()">Yes</button>
+        <button class="btn btn-primary" (click)="cancelResolve()">Cancel</button>
+    </div>
+</div>
+}
