@@ -133,6 +133,28 @@ If you still have CORS issues, check that your frontend is making requests to th
 2. **Use strong JWT_SECRET** - Generate using: `openssl rand -base64 32`
 3. **MongoDB Network Access** - Consider restricting to specific IPs in production
 4. **Rotate secrets regularly** - Update passwords and secrets periodically
+5. **Rate Limiting** - Consider adding rate limiting middleware (like `express-rate-limit`) to protect against brute force attacks on authentication endpoints
+
+### Recommended: Add Rate Limiting
+
+For production security, consider adding rate limiting:
+
+```bash
+npm install express-rate-limit
+```
+
+Then in your `backend/app.js`:
+
+```javascript
+const rateLimit = require('express-rate-limit');
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100 // limit each IP to 100 requests per windowMs
+});
+
+app.use('/api/', limiter);
+```
 
 ## Local Development
 
