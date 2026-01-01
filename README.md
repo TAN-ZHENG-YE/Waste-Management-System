@@ -37,7 +37,7 @@ This project was generated with Angular CLI version 18.2.1.
 - View community news and updates
 
 ### Admin Features
-- Admin dashboard with community statistics
+- Admin dashboard with community statistics (try login as admin with this sample account- email: admin7@gmail.com, pass: 12345678)
 - Manage community details and pickup schedules
 - User management (view details, send messages, remove users)
 - Approve or reject waste pickup requests
