@@ -1,7 +1,7 @@
 # WasteWise – Community Waste Management System
 
 ## Overview
-
+![alt text](image.png)
 WasteWise is a full-stack web application designed to support community-based waste management. The system allows residents to schedule waste pickups, report issues, view pickup history, and receive notifications, while administrators can manage communities, users, pickup requests, reports, and announcements through a dedicated admin dashboard. 
 
 This project demonstrates the use of modern web technologies, secure authentication, and structured backend design to solve a real-world community management problem.
